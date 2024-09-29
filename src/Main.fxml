@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="800.0" maxWidth="1000.0" minHeight="800.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
+  <children>
+    <MenuBar maxHeight="100.0" maxWidth="1005.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="1005.0" VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <children>
+            <TabPane maxHeight="800.0" maxWidth="1000.0" minHeight="800.0" minWidth="1000.0" prefHeight="800.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Progress Tab">
+                  <content>
+                    <AnchorPane maxHeight="748.0" maxWidth="1001.0" minHeight="391.0" minWidth="750.0" prefHeight="748.0" prefWidth="1001.0">
+                           <children>
+                              <ProgressBar layoutX="18.0" layoutY="706.0" prefHeight="27.0" prefWidth="963.0" progress="0.0" translateZ="1.0" />
+                              <Text layoutX="358.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are:" wrappingWidth="124.5963134765625">
+                                 <font>
+                                    <Font size="27.0" />
+                                 </font></Text>
+                              <Text layoutX="461.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{percent} done.">
+                                 <font>
+                                    <Font size="27.0" />
+                                 </font></Text>
+                              <ComboBox fx:id= "progressComboBox" layoutX="14.0" layoutY="59.0" prefHeight="39.0" prefWidth="249.0" promptText="Pick Course" />
+                              <TextField layoutX="16.0" layoutY="163.0" />
+                              <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Class you want to edit progress of" wrappingWidth="151.4700469970703" />
+                              <Text layoutX="14.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter percentage between 0 and 1" wrappingWidth="151.4700469970703" />
+                              <Button layoutX="16.0" layoutY="196.0" mnemonicParsing="false" text="Save" />
+                              <ProgressBar layoutX="14.0" layoutY="241.0" prefWidth="200.0" progress="0.0" />
+                              <TextArea layoutX="500.0" layoutY="143.0" prefHeight="233.0" prefWidth="382.0" />
+                              <Text layoutX="614.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progress Update Notes" wrappingWidth="154.66660563151044" />
+                              <Button layoutX="639.0" layoutY="390.0" mnemonicParsing="false" text="Update Progress" />
+                              <Text layoutX="623.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progress Update Title" />
+                              <TextField layoutX="500.0" layoutY="46.0" prefHeight="25.0" prefWidth="379.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Class ListTab">
+                  <content>
+                    <AnchorPane minHeight="300.0" minWidth="0.0" prefHeight="400.0" prefWidth="750.0">
+                           <children>
+							<TableView fx:id="tableView" prefHeight="747.0" prefWidth="1000.0">
+								<columns>
+									<TableColumn fx:id="classNameColumn" minWidth="50.0" prefWidth="300.0" text="Class Name" />
+									<TableColumn fx:id="courseDescriptionColumn" minWidth="50.0" prefWidth="500.0" text="Course Description" />
+									<TableColumn fx:id="difficultyColumn" minWidth="50.0" prefWidth="100.0" text="Difficulty" />
+									<TableColumn fx:id="percentDoneColumn" minWidth="50.0" prefWidth="100.0" text="Percent Done" />
+								</columns>
+							</TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Class Details">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ComboBox fx:id= "detailComboBox" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="302.0" promptText="Pick Course" />
+                              <TextField layoutX="14.0" layoutY="106.0" prefHeight="25.0" prefWidth="449.0" />
+                              <Text layoutX="14.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Description" wrappingWidth="92.1640625" />
+                              <Text layoutX="165.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Notes" wrappingWidth="92.1640625" />
+                              <ProgressBar layoutX="363.0" layoutY="18.0" prefHeight="18.0" prefWidth="597.0" progress="0.0" />
+                              <Button layoutX="25.0" layoutY="712.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Save" />
+                              <TextArea layoutX="14.0" layoutY="165.0" prefHeight="527.0" prefWidth="451.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
