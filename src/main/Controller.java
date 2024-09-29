@@ -2,26 +2,28 @@ package main;
 
 import ClassDetails.ClassInfo;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import progress.ProgressInfo;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Controller {
 
 
     @FXML
-    private TableView<ClassInfo> tableView;
+    private TableView<ClassInfo> tableViewClassList;
 
     @FXML
     private TableColumn<ClassInfo, String> classNameColumn;
@@ -61,11 +63,25 @@ public class Controller {
 
     @FXML
     private Button buttonSaveProgressDetail;
+
     @FXML
     private Button buttonSaveProgressProgress;
 
+    @FXML
+    private TextField textFieldClassDescription;
+
+    @FXML
+    private TextField textFieldProgressUpdateTitle;
+
+    @FXML
+    private TextArea textAreaProgressDescription;
+
+    @FXML
+    private Slider sliderMotivation;
 
     private ObservableList<ClassInfo> classList; // Moved to be an instance variable
+
+    private ObservableList<ProgressInfo> progressList; //thanks gpt
 
     public void initialize() {
         // Set up the columns in the table
@@ -82,8 +98,8 @@ public class Controller {
         // FIND
         // THE FUCKING FILE!
         classList = loadClassDataFromJson("C:\\Users\\ayden\\IdeaProjects\\Progress_tracker\\src\\ClassDetails\\classList.json");
-
-        tableView.setItems(classList);
+        progressList = loadProgressDataFromJson("C:\\Users\\ayden\\IdeaProjects\\Progress_tracker\\src\\progress\\progressUpdate.json");
+        tableViewClassList.setItems(classList);
         progressComboBox.setItems(classList);
         detailComboBox.setItems(classList);
 
@@ -107,6 +123,11 @@ public class Controller {
                 double progress = selectedClass.getPercentDone();
                 classProgressBarDetail.setProgress(progress);
             }
+            // Populate the class description text box with the current description
+            textFieldClassDescription.setText(selectedClass.getClassDesc());
+
+            // Populate the class notes text area with the current notes
+            textAreaClassNotes.setText(selectedClass.getClassNotes());
         });
     }
 
@@ -164,29 +185,48 @@ public class Controller {
         progressText.setText("You are " + formattedPercent + "% done!");
     }
 
+
+
     @FXML
     private void handleSaveButton() {
-        ClassInfo selectedClass = progressComboBox.getSelectionModel().getSelectedItem();
-        if (selectedClass != null) {
+        // Handle saving progress for the "Progress" tab
+        ClassInfo selectedClassProgress = progressComboBox.getSelectionModel().getSelectedItem();
+        if (selectedClassProgress != null) {
             try {
+                // Retrieve and set the new progress value
                 double newProgress = Double.parseDouble(textFieldProgressUpdateProgress.getText());
-                String newNotes = textAreaClassNotes.getText();
-
-                selectedClass.setPercentDone(newProgress);
-                selectedClass.setClassNotes(newNotes);
-                classProgressBarDetail.setProgress(newProgress);
+                selectedClassProgress.setPercentDone(newProgress);
                 classProgressBarProgress.setProgress(newProgress);
+                classProgressBarDetail.setProgress(newProgress); // Sync the detail progress bar
 
                 // Update the overall progress bar
                 updateOverallProgress(classList);
 
                 // Save the updated list back to the JSON file
                 saveClassDataToJson(classList, "C:\\Users\\ayden\\IdeaProjects\\Progress_tracker\\src\\ClassDetails\\classList.json");
+
+                System.out.println("Progress updated and saved!");
             } catch (NumberFormatException e) {
-                System.out.println("Invalid progress value. Please enter a number.");
+                System.out.println("Invalid progress value. Please enter a valid number.");
             }
         }
-        else{
+
+        // Handle saving notes for the "Detail" tab
+        ClassInfo selectedClassDetail = detailComboBox.getSelectionModel().getSelectedItem();
+        if (selectedClassDetail != null) {
+            String newNotes = textAreaClassNotes.getText();
+            String newDescription = textFieldClassDescription.getText();
+            selectedClassDetail.setClassNotes(newNotes);
+            selectedClassDetail.setClassDesc(newDescription);
+
+            // Save the updated list back to the JSON file
+            saveClassDataToJson(classList, "C:\\Users\\ayden\\IdeaProjects\\Progress_tracker\\src\\ClassDetails\\classList.json");
+            tableViewClassList.refresh();
+            System.out.println("Class notes updated and saved!");
+        }
+
+        // If neither ComboBox has a selected class, show a message
+        if (selectedClassProgress == null && selectedClassDetail == null) {
             System.out.println("You have to select a class.");
         }
     }
@@ -200,4 +240,61 @@ public class Controller {
             System.out.println("Failed to save data to JSON.");
         }
     }
+    private void saveProgressDataToJson(ObservableList<ProgressInfo> progressList, String filePath) {
+        // Register the custom LocalDateTime adapter
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new localDateTimeAdapter())
+                .setPrettyPrinting() // Optional: formats the JSON output nicely
+                .create();
+
+        try (FileWriter writer = new FileWriter(filePath)) {
+            gson.toJson(progressList, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to save data to JSON.");
+        }
+    }
+@FXML
+    private void SaveProgressUpdate() {
+        String title = textFieldProgressUpdateTitle.getText();
+        String description = textAreaProgressDescription.getText();
+        double motivation = sliderMotivation.getValue();
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        // Get the current local date and time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        // Create a new ProgressInfo object with the current date and time
+        ProgressInfo newProgress = new ProgressInfo(title, description, motivation, currentDateTime.toString());
+
+        // Add the new progress to the list
+        progressList.add(newProgress);
+
+        // Save the updated list back to the JSON file
+        saveProgressDataToJson(progressList, "C:\\Users\\ayden\\IdeaProjects\\Progress_tracker\\src\\progress\\progressUpdate.json");
+
+        // Clear the input fields after saving
+        textFieldProgressUpdateTitle.clear();
+    textAreaProgressDescription.clear();
+        sliderMotivation.setValue(0.5);
+    }
+    private ObservableList<ProgressInfo> loadProgressDataFromJson(String filePath) {
+        ObservableList<ProgressInfo> progressList = FXCollections.observableArrayList();
+
+        // Register the custom LocalDateTime adapter
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new localDateTimeAdapter())
+                .create();
+
+        try (FileReader reader = new FileReader(filePath)) {
+            Type progressListType = new TypeToken<List<ProgressInfo>>() {}.getType();
+            List<ProgressInfo> progressUpdates = gson.fromJson(reader, progressListType);
+            progressList.addAll(progressUpdates);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return progressList;
+    }
+
 }

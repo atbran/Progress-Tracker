@@ -5,6 +5,7 @@ module Progress.tracker {
 
     opens main;
     opens ClassDetails to javafx.base, com.google.gson;
+    opens progress to com.google.gson;
 
 
 }
