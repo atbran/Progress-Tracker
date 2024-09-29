@@ -5,6 +5,7 @@ public class ClassInfo {
     private String classDesc;
     private String classDifficulty;
     private double classPercentDone;
+    public double totalClasses = 39;
 
     public ClassInfo(String className, String classDesc, String classDifficulty, Double percentDone) {
         this.className = className;

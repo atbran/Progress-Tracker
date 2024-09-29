@@ -113,7 +113,7 @@
                               <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Class you want to edit progress of" wrappingWidth="151.4700469970703" />
                               <Text layoutX="14.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter percentage between 0 and 1" wrappingWidth="151.4700469970703" />
                               <Button layoutX="16.0" layoutY="196.0" mnemonicParsing="false" text="Save" />
-                              <ProgressBar layoutX="14.0" layoutY="241.0" prefWidth="200.0" progress="0.0" />
+                              <ProgressBar fx:id="classProgressBarProgress" layoutX="14.0" layoutY="241.0" prefWidth="200.0" progress="0.0" />
                               <TextArea layoutX="500.0" layoutY="143.0" prefHeight="233.0" prefWidth="382.0" />
                               <Text layoutX="614.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progress Update Notes" wrappingWidth="154.66660563151044" />
                               <Button layoutX="639.0" layoutY="390.0" mnemonicParsing="false" text="Update Progress" />
@@ -147,7 +147,7 @@
                               <TextField layoutX="14.0" layoutY="106.0" prefHeight="25.0" prefWidth="449.0" />
                               <Text layoutX="14.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Description" wrappingWidth="92.1640625" />
                               <Text layoutX="165.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Notes" wrappingWidth="92.1640625" />
-                              <ProgressBar layoutX="363.0" layoutY="18.0" prefHeight="18.0" prefWidth="597.0" progress="0.0" />
+                              <ProgressBar fx:id = "classProgressBarDetail" layoutX="363.0" layoutY="18.0" prefHeight="18.0" prefWidth="597.0" progress="0.0" />
                               <Button layoutX="25.0" layoutY="712.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Save" />
                               <TextArea layoutX="14.0" layoutY="165.0" prefHeight="527.0" prefWidth="451.0" />
                            </children>

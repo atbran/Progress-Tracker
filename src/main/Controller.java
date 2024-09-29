@@ -6,10 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.FileReader;
@@ -40,6 +37,12 @@ public class Controller {
     @FXML
     private ComboBox<ClassInfo> detailComboBox;
 
+    @FXML
+    private ProgressBar classProgressBarProgress;
+
+    @FXML
+    private ProgressBar classProgressBarDetail;
+
     public void initialize() {
         // Set up the columns in the table
         classNameColumn.setCellValueFactory(new PropertyValueFactory<>("className"));
@@ -49,7 +52,6 @@ public class Controller {
 
         // FUCKING INTELLIJ SHIT!
         // ObservableList<ClassInfo> classList = loadClassDataFromJson("/ClassDetails/classList.json");
-        // IntelliJ pisses me off with this wrap around horse shite.
         // WHY
         // CANT
         // YOU
@@ -66,11 +68,15 @@ public class Controller {
 
         progressComboBox.setOnAction(event -> {
             ClassInfo selectedClass = progressComboBox.getSelectionModel().getSelectedItem();
+            double progress = selectedClass.getPercentDone();
+            classProgressBarProgress.setProgress(progress);
         });
 
 
         detailComboBox.setOnAction(event -> {
             ClassInfo selectedClass = detailComboBox.getSelectionModel().getSelectedItem();
+            double progress = selectedClass.getPercentDone();
+            classProgressBarDetail.setProgress(progress);
         });
     }
 
