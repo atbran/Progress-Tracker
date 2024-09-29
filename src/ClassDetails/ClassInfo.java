@@ -5,13 +5,14 @@ public class ClassInfo {
     private String classDesc;
     private String classDifficulty;
     private double classPercentDone;
-    public double totalClasses = 39;
+    public String  classNotes;
 
     public ClassInfo(String className, String classDesc, String classDifficulty, Double percentDone) {
         this.className = className;
         this.classDesc = classDesc;
         this.classDifficulty = classDifficulty;
         this.classPercentDone = percentDone;
+        this.classNotes = "";
     }
 
     // Getters and Setters
@@ -45,5 +46,13 @@ public class ClassInfo {
 
     public void setPercentDone(Double percentDone) {
         this.classPercentDone = percentDone;
+    }
+
+    public String getClassNotes() {
+        return classNotes;
+    }
+
+    public void setClassNotes(String classNotes) {
+        this.classNotes = classNotes;
     }
 }

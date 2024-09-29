@@ -99,20 +99,16 @@
                   <content>
                     <AnchorPane maxHeight="748.0" maxWidth="1001.0" minHeight="391.0" minWidth="750.0" prefHeight="748.0" prefWidth="1001.0">
                            <children>
-                              <ProgressBar layoutX="18.0" layoutY="706.0" prefHeight="27.0" prefWidth="963.0" progress="0.0" translateZ="1.0" />
-                              <Text layoutX="358.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You are:" wrappingWidth="124.5963134765625">
+                              <ProgressBar fx:id="progressBarMain" layoutX="18.0" layoutY="706.0" prefHeight="27.0" prefWidth="963.0" progress="0.0" translateZ="1.0" />
+                              <Text fx:id="progressText" layoutX="409.0" layoutY="692.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{percent} done.">
                                  <font>
                                     <Font size="27.0" />
                                  </font></Text>
-                              <Text layoutX="461.0" layoutY="686.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{percent} done.">
-                                 <font>
-                                    <Font size="27.0" />
-                                 </font></Text>
-                              <ComboBox fx:id= "progressComboBox" layoutX="14.0" layoutY="59.0" prefHeight="39.0" prefWidth="249.0" promptText="Pick Course" />
-                              <TextField layoutX="16.0" layoutY="163.0" />
+                              <ComboBox fx:id="progressComboBox" layoutX="14.0" layoutY="59.0" prefHeight="39.0" prefWidth="249.0" promptText="Pick Course" />
+                              <TextField fx:id="textFieldProgressUpdateProgress" layoutX="16.0" layoutY="163.0" />
                               <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Class you want to edit progress of" wrappingWidth="151.4700469970703" />
                               <Text layoutX="14.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter percentage between 0 and 1" wrappingWidth="151.4700469970703" />
-                              <Button layoutX="16.0" layoutY="196.0" mnemonicParsing="false" text="Save" />
+                              <Button fx:id="buttonSaveProgressProgress"  layoutX="16.0" layoutY="196.0" mnemonicParsing="false" text="Save" onAction="#handleSaveButton"/>
                               <ProgressBar fx:id="classProgressBarProgress" layoutX="14.0" layoutY="241.0" prefWidth="200.0" progress="0.0" />
                               <TextArea layoutX="500.0" layoutY="143.0" prefHeight="233.0" prefWidth="382.0" />
                               <Text layoutX="614.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Progress Update Notes" wrappingWidth="154.66660563151044" />
@@ -143,13 +139,13 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ComboBox fx:id= "detailComboBox" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="302.0" promptText="Pick Course" />
+                              <ComboBox fx:id="detailComboBox" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="302.0" promptText="Pick Course" />
                               <TextField layoutX="14.0" layoutY="106.0" prefHeight="25.0" prefWidth="449.0" />
                               <Text layoutX="14.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Description" wrappingWidth="92.1640625" />
                               <Text layoutX="165.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Notes" wrappingWidth="92.1640625" />
-                              <ProgressBar fx:id = "classProgressBarDetail" layoutX="363.0" layoutY="18.0" prefHeight="18.0" prefWidth="597.0" progress="0.0" />
-                              <Button layoutX="25.0" layoutY="712.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Save" />
-                              <TextArea layoutX="14.0" layoutY="165.0" prefHeight="527.0" prefWidth="451.0" />
+                              <ProgressBar fx:id="classProgressBarDetail" layoutX="363.0" layoutY="18.0" prefHeight="18.0" prefWidth="597.0" progress="0.0" />
+                              <Button fx:id="buttonSaveProgressDetail" layoutX="25.0" layoutY="712.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Save" onAction="#handleSaveButton"/>
+                              <TextArea fx:id = "textAreaClassNotes" layoutX="14.0" layoutY="165.0" prefHeight="527.0" prefWidth="451.0" />
                            </children>
                         </AnchorPane>
                     </content>
