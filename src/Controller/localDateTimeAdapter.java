@@ -1,4 +1,4 @@
-package main; // Replace with your actual package name
+package Controller;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+//thanks gpt
 public class localDateTimeAdapter extends TypeAdapter<LocalDateTime> {
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME; // Use the desired format
 
