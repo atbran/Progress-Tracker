@@ -14,8 +14,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             // Play the audio
-            String resourcePath = "tada.wav";
-            media.audioPlayer.playAudio(resourcePath);
+            //IT WORKS!!!!!!!!!!!!!!!!!!!!!!!!!
+//            String resourcePath = "/tada.wav";
+//            media.audioPlayer.playAudio(resourcePath);
 
             // Load your main UI
             Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));

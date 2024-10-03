@@ -27,7 +27,6 @@ public class Controller {
     private ObservableList<ClassInfo> classList;
     private ObservableList<ProgressInfo> progressList;
 
-    // File paths
     private final String classDataFilePath = "C:\\Users\\ayden\\IdeaProjects\\Progress_tracker\\src\\ClassDetails\\classList.json";
     private final String progressDataFilePath = "C:\\Users\\ayden\\IdeaProjects\\Progress_tracker\\src\\progress\\progressUpdate.json";
 
@@ -125,9 +124,6 @@ public class Controller {
         saveDetailData();
         updateOverallProgress();
         tableViewClassList.refresh();
-
-        String audioFilePath = "resources/tada.mp3";
-        media.audioPlayer.playAudio(audioFilePath);
     }
 
     private void saveProgressData() {
@@ -164,6 +160,8 @@ public class Controller {
                 sliderMotivation.getValue(),
                 LocalDateTime.now().toString()
         );
+        String resourcePath = "/tada.wav";
+        media.audioPlayer.playAudio(resourcePath);
         progressList.add(newProgress);
         saveProgressInfo();
     }
