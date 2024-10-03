@@ -1,0 +1,1 @@
+Here is a toy project I've been making that tracks my progress at WGU for the computer science degree. It'll have to be updated for the new 2024 term. But the bones are there or are being made so to speak.
