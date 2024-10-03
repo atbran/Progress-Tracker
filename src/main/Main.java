@@ -13,14 +13,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            // Play the audio
-            //IT WORKS!!!!!!!!!!!!!!!!!!!!!!!!!
-//            String resourcePath = "/tada.wav";
-//            media.audioPlayer.playAudio(resourcePath);
-
-            // Load your main UI
             Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));
-            primaryStage.setTitle("Progress Tracker: ALPHA 0.2.5");
+            primaryStage.setTitle("Progress Tracker: ALPHA 0.3.1");
             primaryStage.setScene(new Scene(root, 1000, 800));
             primaryStage.setResizable(false);
             primaryStage.show();

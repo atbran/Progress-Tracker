@@ -22,7 +22,7 @@ public class audioPlayer {
             mediaPlayer = new MediaPlayer(sound);
 
             // Set volume before playing
-            mediaPlayer.setVolume(1.0);
+            mediaPlayer.setVolume(.5);
 
             // Error handling for Media
             sound.setOnError(() -> {

@@ -1,6 +1,8 @@
 package Controller;
 
 import ClassDetails.ClassInfo;
+import com.google.gson.reflect.TypeToken;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -9,6 +11,7 @@ import javafx.scene.text.Text;
 import progress.ProgressInfo;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class Controller {
     @FXML private TextField textFieldProgressUpdateProgress, textFieldClassDescription, textFieldProgressUpdateTitle;
     @FXML private TextArea textAreaClassNotes, textAreaProgressDescription;
     @FXML private Slider sliderMotivation;
+    @FXML private TableView<ProgressInfo> progressTable;
 
     private ObservableList<ClassInfo> classList;
     private ObservableList<ProgressInfo> progressList;
@@ -35,6 +39,7 @@ public class Controller {
         loadData();
         setupComboBoxes();
         updateOverallProgress();
+        updateProgressTable();
     }
 
     private void setupTable() {
@@ -46,15 +51,33 @@ public class Controller {
 
     private void loadData() {
         // Define Types for ClassInfo and ProgressInfo
-        Type classListType = new com.google.gson.reflect.TypeToken<List<ClassInfo>>() {}.getType();
-        Type progressListType = new com.google.gson.reflect.TypeToken<List<ProgressInfo>>() {}.getType();
+        Type classListType = new TypeToken<List<ClassInfo>>() {}.getType();
+        Type progressListType = new TypeToken<List<ProgressInfo>>() {}.getType();
 
         // Load Class Data
-        classList = jsonInterface.loadDataFromJson(classDataFilePath, classListType);
+        classList = FXCollections.observableArrayList(jsonInterface.loadDataFromJson(classDataFilePath, classListType));
         tableViewClassList.setItems(classList);
 
+        //Color table rows depending on progress
+        tableViewClassList.setRowFactory(tv -> new TableRow<ClassInfo>() {
+            @Override
+            protected void updateItem(ClassInfo item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setStyle("");
+                } else {
+                    if (item.getPercentDone() == 0.0) {
+                        setStyle("-fx-background-color: #fd6868;");
+                    } else if (item.getPercentDone() == 1.0) {
+                        setStyle("-fx-background-color: #63fd63;");
+                    } else {
+                        setStyle("-fx-background-color: #fafa67;");
+                    }
+                }
+            }
+        });
         // Load Progress Data
-        progressList = jsonInterface.loadDataFromJson(progressDataFilePath, progressListType);
+        progressList = FXCollections.observableArrayList(jsonInterface.loadDataFromJson(progressDataFilePath, progressListType));
     }
 
     private void setupComboBoxes() {
@@ -129,17 +152,63 @@ public class Controller {
     private void saveProgressData() {
         ClassInfo selectedClass = progressComboBox.getSelectionModel().getSelectedItem();
         if (selectedClass != null) {
-            try {
-                double newProgress = Double.parseDouble(textFieldProgressUpdateProgress.getText());
+            double newProgress = getValidProgressValue(textFieldProgressUpdateProgress);
+            if (newProgress >= 0) {
                 selectedClass.setPercentDone(newProgress);
                 classProgressBarProgress.setProgress(newProgress);
                 classProgressBarDetail.setProgress(newProgress);
-                jsonInterface.saveDataToJson(classList, classDataFilePath);
+                progressList.add(new ProgressInfo(selectedClass.getClassName(), "", newProgress, LocalDateTime.now().toString()));
+                jsonInterface.saveDataToJson(progressList, progressDataFilePath);
                 System.out.println("Progress updated and saved!");
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid progress value. Please enter a valid number.");
             }
         }
+    }
+
+    private double getValidProgressValue(TextField textField) {
+        try {
+            double newProgress = Double.parseDouble(textField.getText());
+            return BigDecimal.valueOf(newProgress).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid progress value. Please enter a valid number.");
+            return -1;
+        }
+    }
+
+    private void updateProgressTable() {
+        progressList = FXCollections.observableArrayList(jsonInterface.loadDataFromJson(progressDataFilePath, new TypeToken<List<ProgressInfo>>(){}.getType()));
+        progressTable.setItems(progressList);
+
+        TableColumn<ProgressInfo, String> titleColumn = new TableColumn<>("Title");
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("progressTitle"));
+
+        TableColumn<ProgressInfo, String> descriptionColumn = new TableColumn<>("Description");
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("progressDescription"));
+
+        TableColumn<ProgressInfo, Double> motivationColumn = new TableColumn<>("Motivation");
+        motivationColumn.setCellValueFactory(new PropertyValueFactory<>("progressMotivation"));
+
+        TableColumn<ProgressInfo, String> dateColumn = new TableColumn<>("Date");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateAndTime"));
+
+        progressTable.getColumns().setAll(titleColumn, descriptionColumn, motivationColumn, dateColumn);
+    }
+
+    @FXML
+    private void SaveProgressUpdate() {
+        // thanks gpt
+        double motivationValue = BigDecimal.valueOf(sliderMotivation.getValue()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+        ProgressInfo newProgress = new ProgressInfo(
+                textFieldProgressUpdateTitle.getText(),
+                textAreaProgressDescription.getText(),
+                motivationValue,
+                LocalDateTime.now().toString()
+        );
+        String resourcePath = "/tada.wav";
+        media.audioPlayer.playAudio(resourcePath);
+        progressList.add(newProgress);
+        saveProgressInfo();
+        updateProgressTable();
     }
 
     private void saveDetailData() {
@@ -152,22 +221,7 @@ public class Controller {
         }
     }
 
-    @FXML
-    private void SaveProgressUpdate() {
-        ProgressInfo newProgress = new ProgressInfo(
-                textFieldProgressUpdateTitle.getText(),
-                textAreaProgressDescription.getText(),
-                sliderMotivation.getValue(),
-                LocalDateTime.now().toString()
-        );
-        String resourcePath = "/tada.wav";
-        media.audioPlayer.playAudio(resourcePath);
-        progressList.add(newProgress);
-        saveProgressInfo();
-    }
-
     private void saveProgressInfo() {
-        Type progressListType = new com.google.gson.reflect.TypeToken<List<ProgressInfo>>() {}.getType();
         jsonInterface.saveDataToJson(progressList, progressDataFilePath);
         clearProgressInputFields();
     }
